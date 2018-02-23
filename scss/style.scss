@@ -164,6 +164,121 @@ footer {
 }
 
 
+
+.lightbox-overlay{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transition: all .2s ease;
+  visibility: hidden;
+  z-index: 2;
+}
+.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.lightbox-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100vh;
+  align-items: center;
+  justify-items: center;
+  
+}
+
+ button {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   margin: 0;
+   padding: 0;
+   background-color: inherit;
+   color: inherit;
+   font-size: inherit;
+   border: none;
+ }
+
+ .main-grid {
+   display: grid;
+   grid-template-columns: repeat(12, 1fr);
+   grid-template-rows: repeat(12, 1fr);
+   align-content: center;
+   justify-content: center;
+   position: relative;
+ }
+ .images-container {
+   grid-column: 1 / span 12;
+   grid-row: 1 / span 12;
+   display: grid;
+   grid-template-columns: 1fr 80% 1fr ;
+ }
+.images-container img  {
+  grid-column: 2;
+  display: block;
+  width: 100%;
+}
+ .image {
+   grid-column: 1/ span 12;
+   grid-row: 1 / span 12;
+   display: grid;
+   align-content: center;
+   justify-content: center;
+   width: 100%;
+   height: 100%;
+   color: #fff;
+   opacity: 0;
+ }
+ .image.selected, .image.selected, .image.selected {
+   opacity: 1;
+ }
+
+ .control {
+   font-size: 20px;
+   font-weight: 600;
+   color: ghostwhite;
+   border-radius: 50%;
+   z-index: 24;
+ }
+.control-left {
+   justify-self: center;
+   grid-column: 1;
+   grid-row: 6;
+ }
+ .control-right {
+   justify-self: center;
+   grid-column: 12;
+   grid-row: 6;
+ }
+ .indicator {
+/*   grid-column: 2 / span 10;*/
+   grid-column: 6 / span 2;
+   grid-row: 12;
+   display: grid;
+/*   grid-template-columns: repeat(4, 10px);*/
+   grid-template-columns: repeat(auto-fit, minmax(5px, 8px));
+   grid-template-rows: 1fr;
+   grid-gap: 8px;
+   align-items: center;
+   justify-content: center;
+ }
+ .indicator>.dot {
+   width: 10px;
+   height: 10px;
+   background-color: #fff;
+   border-radius: 50%;
+   opacity: .5;
+ }
+ .dot.selected {
+   opacity: 1;
+ }
+
+
+
 @supports (display: grid) {
   
   .image-gallery {
@@ -186,3 +301,10 @@ footer {
 }
 
 
+@media (max-width: 735px) { 
+ .image-gallery {
+ 
+  grid-gap: 2px;
+  }
+
+}
