@@ -1,185 +1,132 @@
 let imgArray = [
   {
-    img: "https://images.pexels.com/photos/545964/pexels-photo-545964.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/545964/pexels-photo-545964.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://demos.scotch.io/scroll-magic-templates/zoomer/wp-content/themes/forty/demos/scroll-magic-templates/zoomer/img/tall.jpg",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/261397/pexels-photo-261397.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/261397/pexels-photo-261397.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/302804/pexels-photo-302804.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/302804/pexels-photo-302804.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   }
 ];
 
-function populateGallery() {
-  let gallery = document.querySelector(".image-gallery");
-  for (i = 0; i < imgArray.length; i++) {
-    let imageWrapper = document.createElement('a');
-    let image = document.createElement('img');
-    image.setAttribute('src', imgArray[i].img);
-    imageWrapper.appendChild(image);
-    imageWrapper.classList.add("gallery-item");
-    imageWrapper.classList.add(i);
-    gallery.appendChild(imageWrapper);
-  }
-};
 
-function populateLightbox() {
-  let gallery = document.querySelector(".images-container");
-  for (i = 0; i < imgArray.length; i++) {
-    let imageWrapper = document.createElement('div');
-    let image = document.createElement('img');
-    image.setAttribute('src', imgArray[i].img);
-    imageWrapper.appendChild(image);
-    imageWrapper.classList.add("image");
-    imageWrapper.classList.add(`img${i}`);
-    gallery.appendChild(imageWrapper);
-  }
-};
-
-populateGallery();
-populateLightbox();
-
-
- let prevImgBtn = document.querySelector('.control-left');
- let nextImgBtn = document.querySelector('.control-right');
- let allImages = Array.from(document.querySelectorAll('.images-container > div'));
- let allImagesLen = allImages.length;
-
-function movePrevious(){
-  let selectedImg = document.querySelector('.images-container > .selected');
-   let selectedIdx = allImages.findIndex(el => el.isEqualNode(selectedImg));
-   let nextIdx = (selectedIdx - 1) < 0 ? allImagesLen - 1 : selectedIdx - 1;
-   if (selectedImg) {
-     selectedImg.classList.remove('selected');
-     allImages[nextIdx].classList.add('selected');
-   }
-}
-
-
- prevImgBtn.addEventListener('click', movePrevious);
-
- nextImgBtn.addEventListener('click', () => {
-   let selectedImg = document.querySelector('.images-container > .selected');
-   let selectedIdx = allImages.findIndex(el => el.isEqualNode(selectedImg));
-   let nextIdx = (selectedIdx + 1) % allImagesLen;
-   if (selectedImg) {
-     selectedImg.classList.remove('selected');
-     allImages[nextIdx].classList.add('selected');
-   }
- });
-
-
-
-
-let current;
-let imgs = document.querySelectorAll('.image-gallery .gallery-item');
+let allImagesLen = imgArray.length;
+let gallery = document.querySelector(".image-gallery");
 let lightbox = document.querySelector('.lightbox-overlay');
+let lightboxFocus = document.querySelector('.lightbox-wrapper img');
+let prevImgBtn = document.querySelector('.control-left');
+let nextImgBtn = document.querySelector('.control-right');
 
+imgArray.forEach(function (image, i) {
+  let imageWrapper = document.createElement('a');
+  let imageTag = document.createElement('img');
+  imageTag.dataset.imgIndex = i;
+  imageTag.src = image.src;
+  imageWrapper.appendChild(imageTag);
+  imageWrapper.classList.add("gallery-item");
+  gallery.appendChild(imageWrapper);
 
-imgs.forEach(img => img.addEventListener('click', imgClick));
+  imageWrapper.addEventListener('click', function (event) {
+    lightboxFocus.dataset.imgIndex = i;
+    lightboxFocus.setAttribute('src', image.src);
+    lightbox.classList.toggle('open');
+  })
+});
 
-function imgClick(e) {
-  let current = e.target.parentElement.classList[1];
-  let classSelector = `.images-container .image.img${String(current)}`;
-  let imageSelected = document.querySelector(classSelector);
-  imageSelected.classList.add('selected');
-  lightbox.classList.toggle('open');
+prevImgBtn.addEventListener('click', () => {
+  let currentIndex = lightboxFocus.dataset.imgIndex;
+  let prevIdx = (lightboxFocus.dataset.imgIndex - 1) < 0 ? allImagesLen - 1 : lightboxFocus.dataset.imgIndex - 1;
+  lightboxFocus.setAttribute('src', imgArray[prevIdx].src);
+  lightboxFocus.dataset.imgIndex = prevIdx;
+});
 
-}
+nextImgBtn.addEventListener('click', () => {
+  let currentIndex = lightboxFocus.dataset.imgIndex;
+  let nextIdx = (currentIndex + 1) % allImagesLen;
+  lightboxFocus.setAttribute('src', imgArray[nextIdx].src);
+  lightboxFocus.dataset.imgIndex = nextIdx;
+});
 
-let lightboxImage = document.querySelector('.main-grid');
-
-lightbox.addEventListener('click', function(event) {
-  let isClickInside = lightboxImage.contains(event.target);
-  if (!isClickInside && lightbox.classList.contains('open') ) {
-    console.log("outside");
+lightbox.addEventListener('click', function (event) {
+  let isClickInside = lightboxFocus.contains(event.target);
+  let isClickInside2 = prevImgBtn.contains(event.target);
+  let isClickInside3 = nextImgBtn.contains(event.target);
+  //check if clicked outside of image lightbox
+  if (!isClickInside && lightbox.classList.contains('open') && !isClickInside2 && !isClickInside3) {
     lightbox.classList.toggle('open');
     let selectedImg = document.querySelector('.images-container .selected');
-    if (selectedImg.classList.contains("selected")) {
-      selectedImg.classList.remove("selected");
-    }
   }
 });
 
-document.onkeydown = function(evt) {
-  if (lightbox.classList.contains('open') ) {
+document.onkeydown = function (evt) {
+  if (lightbox.classList.contains('open')) {
     evt = evt || window.event;
     let isEscape = false;
     if ("key" in evt) {
-        isEscape = (evt.key == "Escape" || evt.key == "Esc");
+      isEscape = (evt.key == "Escape" || evt.key == "Esc");
     } else {
-        isEscape = (evt.keyCode == 27);
+      isEscape = (evt.keyCode == 27);
     }
     if (isEscape) {
-        lightbox.classList.toggle('open');
-        let selectedImg = document.querySelector('.images-container .selected');
-        if (selectedImg.classList.contains("selected")) {
-          selectedImg.classList.remove("selected");
-       }
+      lightbox.classList.toggle('open');
+      let selectedImg = document.querySelector('.images-container .selected');
     }
-    
+
     let isLeft = false;
     if ("key" in evt) {
-        isLeft = (evt.key == "Left arrow" );
+      isLeft = (evt.key == "Left arrow");
     } else {
-        isLeft = (evt.keyCode == 37);
+      isLeft = (evt.keyCode == 37);
     }
     if (isLeft) {
       movePrevious();
-        
     }
-    
+
     let isRight = false;
     if ("key" in evt) {
-        isRight = (evt.key == "Right arrow");
+      isRight = (evt.key == "Right arrow");
     } else {
-        isRight = (evt.keyCode == 39);
+      isRight = (evt.keyCode == 39);
     }
     if (isRight) {
-     
-    }
-    
 
+    }
   }
 };
-
-
-
-
-

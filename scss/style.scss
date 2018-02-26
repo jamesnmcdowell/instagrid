@@ -205,17 +205,23 @@ footer {
 
  .main-grid {
    display: grid;
+   width: 90vw;
    grid-template-columns: repeat(12, 1fr);
-   grid-template-rows: repeat(12, 1fr);
+   grid-template-columns: 25px 1fr 25px ;
+   
+   grid-template-rows: repeat(1, 1fr);
    align-content: center;
+   align-items: center;
    justify-content: center;
    position: relative;
+   background-color: transparent;
+   
  }
  .images-container {
-   grid-column: 1 / span 12;
+   grid-column: 2;
    grid-row: 1 / span 12;
    display: grid;
-   grid-template-columns: 1fr 80% 1fr ;
+   
  }
 .images-container img  {
   grid-column: 2;
@@ -233,7 +239,7 @@ footer {
    color: #fff;
    opacity: 0;
  }
- .image.selected, .image.selected, .image.selected {
+ .image.selected {
    opacity: 1;
  }
 
@@ -247,12 +253,12 @@ footer {
 .control-left {
    justify-self: center;
    grid-column: 1;
-   grid-row: 6;
+   grid-row: 1;
  }
  .control-right {
    justify-self: center;
-   grid-column: 12;
-   grid-row: 6;
+   grid-column: 3;
+   grid-row: 1;
  }
  .indicator {
 /*   grid-column: 2 / span 10;*/
