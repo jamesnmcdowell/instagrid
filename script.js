@@ -1,185 +1,109 @@
 let imgArray = [
   {
-    img: "https://images.pexels.com/photos/545964/pexels-photo-545964.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/545964/pexels-photo-545964.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://demos.scotch.io/scroll-magic-templates/zoomer/wp-content/themes/forty/demos/scroll-magic-templates/zoomer/img/tall.jpg",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/261397/pexels-photo-261397.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/261397/pexels-photo-261397.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/144251/yosemite-national-park-landscape-california-144251.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/161784/landscape-thor-s-hammer-bryce-canyon-national-park-161784.jpeg?w=940&h=650&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/302804/pexels-photo-302804.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/302804/pexels-photo-302804.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
   {
-    img: "https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+    src: "https://images.pexels.com/photos/221148/pexels-photo-221148.jpeg?w=940&h=650&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   }
 ];
 
-function populateGallery() {
-  let gallery = document.querySelector(".image-gallery");
-  for (i = 0; i < imgArray.length; i++) {
-    let imageWrapper = document.createElement('a');
-    let image = document.createElement('img');
-    image.setAttribute('src', imgArray[i].img);
-    imageWrapper.appendChild(image);
-    imageWrapper.classList.add("gallery-item");
-    imageWrapper.classList.add(i);
-    gallery.appendChild(imageWrapper);
-  }
-};
-
-function populateLightbox() {
-  let gallery = document.querySelector(".images-container");
-  for (i = 0; i < imgArray.length; i++) {
-    let imageWrapper = document.createElement('div');
-    let image = document.createElement('img');
-    image.setAttribute('src', imgArray[i].img);
-    imageWrapper.appendChild(image);
-    imageWrapper.classList.add("image");
-    imageWrapper.classList.add(`img${i}`);
-    gallery.appendChild(imageWrapper);
-  }
-};
-
-populateGallery();
-populateLightbox();
-
-
- let prevImgBtn = document.querySelector('.control-left');
- let nextImgBtn = document.querySelector('.control-right');
- let allImages = Array.from(document.querySelectorAll('.images-container > div'));
- let allImagesLen = allImages.length;
-
-function movePrevious(){
-  let selectedImg = document.querySelector('.images-container > .selected');
-   let selectedIdx = allImages.findIndex(el => el.isEqualNode(selectedImg));
-   let nextIdx = (selectedIdx - 1) < 0 ? allImagesLen - 1 : selectedIdx - 1;
-   if (selectedImg) {
-     selectedImg.classList.remove('selected');
-     allImages[nextIdx].classList.add('selected');
-   }
-}
-
-
- prevImgBtn.addEventListener('click', movePrevious);
-
- nextImgBtn.addEventListener('click', () => {
-   let selectedImg = document.querySelector('.images-container > .selected');
-   let selectedIdx = allImages.findIndex(el => el.isEqualNode(selectedImg));
-   let nextIdx = (selectedIdx + 1) % allImagesLen;
-   if (selectedImg) {
-     selectedImg.classList.remove('selected');
-     allImages[nextIdx].classList.add('selected');
-   }
- });
-
-
-
-
-let current;
-let imgs = document.querySelectorAll('.image-gallery .gallery-item');
+let allImagesLen = imgArray.length;
+let gallery = document.querySelector(".image-gallery");
 let lightbox = document.querySelector('.lightbox-overlay');
+let lightboxWrapper = document.querySelector('.lightbox-wrapper');
+let mainGrid = document.querySelector('.main-grid');
+let imgCointainer = document.querySelector('.main-grid .image');
+let lightboxImg = document.querySelector('.main-grid img');
+let prevImgBtn = document.querySelector('.control-left');
+let nextImgBtn = document.querySelector('.control-right');
+let currentIdx;
 
+imgArray.forEach( (image, i) => {
+  let imageWrapper = document.createElement('a');
+  let imageTag = document.createElement('img');
+  imageTag.src = image.src;
+  imageWrapper.appendChild(imageTag);
+  imageWrapper.classList.add("gallery-item");
+  gallery.appendChild(imageWrapper);
 
-imgs.forEach(img => img.addEventListener('click', imgClick));
-
-function imgClick(e) {
-  let current = e.target.parentElement.classList[1];
-  let classSelector = `.images-container .image.img${String(current)}`;
-  let imageSelected = document.querySelector(classSelector);
-  imageSelected.classList.add('selected');
-  lightbox.classList.toggle('open');
-
-}
-
-let lightboxImage = document.querySelector('.main-grid');
-
-lightbox.addEventListener('click', function(event) {
-  let isClickInside = lightboxImage.contains(event.target);
-  if (!isClickInside && lightbox.classList.contains('open') ) {
-    console.log("outside");
+  imageWrapper.addEventListener('click', function (event) {
+    currentIdx = i;
+    lightboxImg.setAttribute('src', image.src);
     lightbox.classList.toggle('open');
-    let selectedImg = document.querySelector('.images-container .selected');
-    if (selectedImg.classList.contains("selected")) {
-      selectedImg.classList.remove("selected");
-    }
+  })
+});
+
+let movePrev = () => {
+  let prevIdx = (currentIdx - 1) < 0 ? allImagesLen - 1 : currentIdx - 1;
+  lightboxImg.setAttribute('src', imgArray[prevIdx].src);
+  currentIdx = prevIdx;
+  };
+
+let moveNext = () => {
+  let nextIdx = (currentIdx + 1) % allImagesLen;
+  lightboxImg.setAttribute('src', imgArray[nextIdx].src);
+  currentIdx = nextIdx;
+  };
+
+prevImgBtn.addEventListener('click', movePrev);
+nextImgBtn.addEventListener('click', moveNext);
+
+lightbox.addEventListener('click', (e) => {
+  let isClickInside1 = lightboxWrapper.contains(e.target);
+  let isClickInside2 = mainGrid.contains(e.target);
+  let isClickInside3 = imgCointainer.contains(e.target);
+  if (e.target === lightboxWrapper | e.target === mainGrid | e.target === imgCointainer ) {
+    lightbox.classList.toggle('open');
   }
 });
 
-document.onkeydown = function(evt) {
-  if (lightbox.classList.contains('open') ) {
-    evt = evt || window.event;
-    let isEscape = false;
-    if ("key" in evt) {
-        isEscape = (evt.key == "Escape" || evt.key == "Esc");
-    } else {
-        isEscape = (evt.keyCode == 27);
-    }
-    if (isEscape) {
-        lightbox.classList.toggle('open');
-        let selectedImg = document.querySelector('.images-container .selected');
-        if (selectedImg.classList.contains("selected")) {
-          selectedImg.classList.remove("selected");
-       }
-    }
-    
-    let isLeft = false;
-    if ("key" in evt) {
-        isLeft = (evt.key == "Left arrow" );
-    } else {
-        isLeft = (evt.keyCode == 37);
-    }
-    if (isLeft) {
-      movePrevious();
-        
-    }
-    
-    let isRight = false;
-    if ("key" in evt) {
-        isRight = (evt.key == "Right arrow");
-    } else {
-        isRight = (evt.keyCode == 39);
-    }
-    if (isRight) {
-     
-    }
-    
-
+document.onkeydown = (e) => {
+  if (lightbox.classList.contains('open')) {
+    e = e || window.event;
+    let isEscape = "key" in e ? e.key == "Escape" || e.key == "Esc" : e.keyCode == 27
+    if (isEscape) lightbox.classList.toggle('open');
+    let isLeft = "key" in e ? e.key == "ArrowLeft" : e.keyCode == 37;
+    if (isLeft) movePrev();
+    let isRight = "key" in e ? e.key == "ArrowRight" : e.keyCode == 39;
+    if (isRight) moveNext();
   }
 };
-
-
-
-
-
