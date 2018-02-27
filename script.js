@@ -49,41 +49,39 @@ let imgArray = [
 let allImagesLen = imgArray.length;
 let gallery = document.querySelector(".image-gallery");
 let lightbox = document.querySelector('.lightbox-overlay');
-let lightboxFocus = document.querySelector('.lightbox-wrapper img');
-let prevImgBtn = document.querySelector('.control-left');
-let nextImgBtn = document.querySelector('.control-right');
 let lightboxWrapper = document.querySelector('.lightbox-wrapper');
 let mainGrid = document.querySelector('.main-grid');
 let imgCointainer = document.querySelector('.main-grid .image');
+let lightboxImg = document.querySelector('.main-grid img');
+let prevImgBtn = document.querySelector('.control-left');
+let nextImgBtn = document.querySelector('.control-right');
+let currentIdx;
 
 imgArray.forEach( (image, i) => {
   let imageWrapper = document.createElement('a');
   let imageTag = document.createElement('img');
-  imageTag.dataset.imgIndex = i;
   imageTag.src = image.src;
   imageWrapper.appendChild(imageTag);
   imageWrapper.classList.add("gallery-item");
   gallery.appendChild(imageWrapper);
 
   imageWrapper.addEventListener('click', function (event) {
-    lightboxFocus.dataset.imgIndex = i;
-    lightboxFocus.setAttribute('src', image.src);
+    currentIdx = i;
+    lightboxImg.setAttribute('src', image.src);
     lightbox.classList.toggle('open');
   })
 });
 
 let movePrev = () => {
-  let currentIndex = lightboxFocus.dataset.imgIndex;
-  let prevIdx = (lightboxFocus.dataset.imgIndex - 1) < 0 ? allImagesLen - 1 : lightboxFocus.dataset.imgIndex - 1;
-  lightboxFocus.setAttribute('src', imgArray[prevIdx].src);
-  lightboxFocus.dataset.imgIndex = prevIdx;
+  let prevIdx = (currentIdx - 1) < 0 ? allImagesLen - 1 : currentIdx - 1;
+  lightboxImg.setAttribute('src', imgArray[prevIdx].src);
+  currentIdx = prevIdx;
   };
 
 let moveNext = () => {
-  let currentIndex = lightboxFocus.dataset.imgIndex;
-  let nextIdx = (currentIndex + 1) % allImagesLen;
-  lightboxFocus.setAttribute('src', imgArray[nextIdx].src);
-  lightboxFocus.dataset.imgIndex = nextIdx;
+  let nextIdx = (currentIdx + 1) % allImagesLen;
+  lightboxImg.setAttribute('src', imgArray[nextIdx].src);
+  currentIdx = nextIdx;
   };
 
 prevImgBtn.addEventListener('click', movePrev);
