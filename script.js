@@ -5,7 +5,7 @@ let imgArray = [
     comments: 3
   },
   {
-    src: "https://demos.scotch.io/scroll-magic-templates/zoomer/wp-content/themes/forty/demos/scroll-magic-templates/zoomer/img/tall.jpg",
+    src: "https://images.pexels.com/photos/161784/landscape-thor-s-hammer-bryce-canyon-national-park-161784.jpeg?w=940&h=650&auto=compress&cs=tinysrgb",
     likes: 2,
     comments: 3
   },
